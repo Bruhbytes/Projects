@@ -6,6 +6,17 @@
     <title>ToDoList</title>
 </head>
 <body>
-    <h2>Today is <%= kindOfDay %>!</h2>
+    <h1><%= kindOfDay %></h1>
+    <ul>
+        <% for(var i = 0; i < list_items.length; i++){ %>
+            <li><%= list_items[i] %></li>
+        <% } %>
+    </ul>
+
+    <form method="post" action="/">
+        <label>Enter your next work: </label>
+        <input type="text" name="next_item">
+        <button type="submit">Enter</button>
+    </form>
 </body>
 </html>
