@@ -4,7 +4,10 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-var items = ["Buy Food", "Cook Food", "Eat Food"];
+app.use(express.static('public'));
+
+var items = [];
+var item = '';
 
 app.listen(3000, function (req, res) {
     console.log("Server running on port 3000");
