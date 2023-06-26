@@ -1,40 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('header') -%>
+<div class="heading">
+    <h1>
+        <%= listType %>
+    </h1>
+</div>
+<div class="flex-container">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDoList</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&family=Mate+SC&display=swap" rel="stylesheet">
-</head>
-
-<body>
-    <div class="heading">
-        <h1>
-            <%= kindOfDay %>
-        </h1>
+    <% for(var i=0; i < list_items.length; i++){ %>
+    <div class="item">
+        <input type="checkbox">
+        <p>
+            <%= list_items[i] %>
+        </p>
     </div>
-    <div class="flex-container">
+    <% } %>
 
-        <% for(var i=0; i < list_items.length; i++){ %>
-            <div class="item">
-                <input type="checkbox">
-                <p>
-                    <%= list_items[i] %>
-                </p>
-            </div>
-        <% } %>
-        
-        <form method="post" action="/" class="form item">
-            <input type="text" name="next_item" placeholder="Add new work" autocomplete="off" >
-            <button type="submit">+</button>
-        </form>
-        <div class="footer">
-            <p>Dhruvil Suthar, 2023</p>
-        </div>
-    </div>
-</body>
-</html>
+    <form method="post" action="/" class="form item">
+        <input type="text" name="next_item" placeholder="Add new work" autocomplete="off">
+        <button type="submit" name="list" value="<%= listType %>">+</button>
+    </form>
+<%- include('footer') -%>
