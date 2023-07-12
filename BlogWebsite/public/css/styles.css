@@ -1,0 +1,40 @@
+.navbar-collapse{
+    justify-content: flex-end;
+}
+
+.container-fluid{
+    background-color: rgb(247, 179, 201);
+    padding-left: 9%;
+    padding-right: 9%;
+    font-family: 'Macondo', cursive;
+    font-size: 1.5rem;
+}
+
+.navbar-nav{
+    gap: 25px;
+}
+
+.navbar-brand{
+    font-size: 2rem;
+}
+
+.plimit{
+    /* display: inline-block; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80ch;
+}
+
+.link{
+    text-decoration: none;
+}
+
+footer{
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    width: 100vw;
+    font-family: 'Mate SC', serif;
+    background-color: rgba(86, 253, 253, 0.829);
+}
