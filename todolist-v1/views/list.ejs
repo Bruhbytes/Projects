@@ -4,18 +4,20 @@
         <%= listType %>
     </h1>
 </div>
-<div class="flex-container">
+<div class="flex-container">    
 
-    <% for(var i=0; i < list_items.length; i++){ %>
-    <div class="item">
-        <input type="checkbox">
-        <p>
-            <%= list_items[i] %>
-        </p>
-    </div>
-    <% } %>
+    <% list_items.forEach((list_item) => { %>
+        <form action="/delete" method="post" class="item">
+            <div>
+                <input type="checkbox" onchange= "this.form.submit()" value="<%= list_item._id %>" name="deletedItem">
+                <p>
+                    <%= list_item.name %>
+                </p>
+            </div>
+        </form>
+    <% }) %>
 
-    <form method="post" action="/" class="form item">
+    <form method="post" action="/" class=" form item">
         <input type="text" name="next_item" placeholder="Add new work" autocomplete="off">
         <button type="submit" name="list" value="<%= listType %>">+</button>
     </form>
