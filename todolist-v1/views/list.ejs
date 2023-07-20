@@ -7,7 +7,7 @@
 <div class="flex-container">    
 
     <% list_items.forEach((list_item) => { %>
-        <form action="/delete" method="post" class="item">
+        <form action="/delete/<%= listType %>" method="post" class="item">
             <div>
                 <input type="checkbox" onchange= "this.form.submit()" value="<%= list_item._id %>" name="deletedItem">
                 <p>
