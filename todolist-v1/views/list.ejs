@@ -18,7 +18,28 @@
     <% }) %>
 
     <form method="post" action="/" class=" form item">
-        <input type="text" name="next_item" placeholder="Add new work" autocomplete="off">
-        <button type="submit" name="list" value="<%= listType %>">+</button>
+        <input type="text" class="next-item" name="next_item" placeholder="Add new work" autocomplete="off">
+        <button type="submit" class="enter" name="list" value="<%= listType %>">+</button>
     </form>
-<%- include('footer') -%>
+    <div class="footer">
+        <p>Dhruvil Suthar, 2023</p>
+    </div>
+</div>
+<button class="toggler" onclick="toggleNav()">☰</button>
+<div class="side-panel" id="my-side-panel">
+    <h2>Available Lists</h2>
+    <p>Select any of the following list or create a new list</p>
+
+    <a class="active side-item" href="/">Today's list</a>
+    <% availList.forEach((list) => { %>
+        <a class="side-item" href="/list/<%= list.name %>"><%= list.name %></a>
+    <% }) %>   
+
+    <form method="post" action="/delete/<%= listType %>" class="side-form">
+        <input type="text" placeholder="Enter new list name" class="new-list-input " name="newListName" autocomplete="off">
+        <button class="create" type="submit">Create</button>
+    </form>
+</div>
+<script src="/JS/client.js" ></script>
+</body>
+</html>

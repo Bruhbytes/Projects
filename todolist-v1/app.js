@@ -41,10 +41,17 @@ app.listen(port, function (req, res) {
     console.log(`Server running on port ${port}`);
 })
 
-app.get('/', function (req, res) {
+app.get('/', async function (req, res) {
     var day = date.getDate();
+    var lists = [];
 
-    Item.find()
+    await List.find()
+    .then((availlists) => {
+        lists = availlists;           
+    })
+    .catch(err => console.log(err));
+
+    await Item.find()
     .then((items)=>{
         if(items.length == 0){
             Item.insertMany(defaultItems, options);
@@ -53,11 +60,15 @@ app.get('/', function (req, res) {
         else{            
             res.render('list', { 
                 listType: day, 
-                list_items: items 
+                list_items: items,
+                availList: lists 
             });
         }
     })
-    .catch(err => console.log(err)) 
+    .catch(err => {
+        console.log(err)
+        res.status(500).send('Internal Server Error');
+    }) 
 
     
 })
@@ -86,31 +97,53 @@ app.post('/', function(req, res){
     
 })
 
-app.post("/delete/:listName", function(req, res){
+app.post("/delete/:listName", async function(req, res){
     const del = req.body.deletedItem;        
     const listTitle = req.params.listName;
     
-    if(listTitle == date.getDate()){
-        Item.deleteOne({_id: del})
-        .then(() => {
-            console.log("Successfully deleted")
-        })
-        .catch(err => console.log(err));
-
-        res.redirect("/");
+    if(del != null){
+        if(listTitle == date.getDate()){
+            Item.deleteOne({_id: del})
+            .then(() => {
+                console.log("Successfully deleted")
+            })
+            .catch(err => console.log(err));
+    
+            res.redirect("/");
+        }
+        else{
+            List.updateOne({name : listTitle},{$pull: {items: {_id: del}}})
+            .then(() => res.redirect("/list/" + listTitle))
+            .catch(err => console.log(err));        
+        }
     }
     else{
-        List.updateOne({name : listTitle},{$pull: {items: {_id: del}}})
-        .then(() => res.redirect("/list/" + listTitle))
-        .catch(err => console.log(err));        
+        var newlist = _.capitalize(req.body.newListName);
+        const list = new List({
+            name: newlist,
+            items : []
+        })
+        await list.save();
+
+        if(listTitle == date.getDate()){
+            res.redirect("/");
+        }else{
+            res.redirect("/list/" + listTitle);
+        }
     }
 })
 
-app.get('/list/:listName', function(req, res){
+app.get('/list/:listName', async function(req, res){
     const listTitle = _.capitalize(req.params.listName);
-    
+    var lists = [];
 
-    List.findOne({name: listTitle})
+    await List.find()
+    .then((availlists) => {
+        lists = availlists             
+    })
+    .catch(err => console.log(err));
+
+    await List.findOne({name: listTitle})
     .then((list) => {
         if(!list){
             //Create a new list            
@@ -126,7 +159,8 @@ app.get('/list/:listName', function(req, res){
             //append into existing list            
             res.render('list', {
                 listType : listTitle, 
-                list_items: list.items
+                list_items: list.items,
+                availList: lists
             })
         }
     })
